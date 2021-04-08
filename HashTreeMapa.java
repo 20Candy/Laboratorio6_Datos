@@ -3,15 +3,15 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class HashTreeMapa extends AbstractoHash {
-    TreeMap<String, ArrayList<String>> map; 
+    TreeMap<String, ArrayList<String>> map = new TreeMap<String, ArrayList<String>>();; 
 
-    public void HashMap(){
-        map = new TreeMap<String, ArrayList<String>>();
-
+    public void crear(String tipo, ArrayList<String> lista){
+        map.put(tipo, lista);
     }
 
     public  void agregar(String tipo, String agregado){
-        ArrayList temp = map.get(tipo);
+        ArrayList<String> temp = new ArrayList<String>();
+        temp = this.map.get(tipo);
         temp.add(agregado);
         map.replace(tipo, temp);
     }
@@ -21,16 +21,23 @@ public class HashTreeMapa extends AbstractoHash {
         temp.remove(quita);
         map.replace(tipo, temp);
     }
- 
-    public  void remplazar(String remplaza){
-        ArrayList temp = map.get(tipo);
-        for(int i = 0 ; i< temp.size()-1; i++){
-            String a = temp.get(i);
-            if(a == remplaza){
-                temp.set(i, remplaza);
+
+    public  void remplazar(String remplaza, String NuevoValor){
+        
+        String llave = GivoKey(remplaza);
+
+        ArrayList<String> contenido = map.get(llave);
+
+        for(int i = 0; i < contenido.size(); i++){
+
+            if(contenido.get(i).equals(remplaza) == true){
+
+                contenido.set(i, NuevoValor);
+
             }
+
         }
-        map.replace(tipo, temp);
+
     }
 
     public  int contar(String tipo){
@@ -39,60 +46,116 @@ public class HashTreeMapa extends AbstractoHash {
         return x;
     }
 
-    public String buscar(String Ryan){//Buscando al String Ryan
+    public String buscar(String Ryan){//Buscando al String Ryan (se ingresa el nombre y se regresa la categoria)
 
-        String respuesta = "No se encontro";
+        String respuesta = "";
         
-        Set<String> k = map.keySet();
-        ArrayList keys = k.toArray();
+        String clase = GivoKey(Ryan);
 
-        for(int i = 0; i < keys.size()-1; i++){
+        if(clase != null){
 
-            String key= keys.get(i);
-            ArrayList<E> temp = map.get(key);
+            respuesta = "La categoria es " + clase;
 
-            for(int k = 0; k < temp.size()-1; k++){
-                
-                if(temp.get(i) == Ryan){
+            return respuesta;
 
-                    respuesta = "El producto pertene a la categoria: " + key.get(i);
-
-                }
-
-            }
         }
 
         return respuesta;
+
     }
-    
+
     public void recorrer(){
-        
+        Set<String> keys = map.keySet();
+
+        ArrayList<String> contenido = new ArrayList<String>();
+
+        for(String key: map.keySet()){
+            
+            contenido = map.get(key);
+
+            ArrayList<String> PRO = contenido;
+            
+            int conta = 0;
+
+            for(int i = 0; i < PRO.size(); i++){
+
+                String elemento = PRO.get(i);
+
+                for(int j = 0; j < PRO.size(); j++){
+
+                    if(elemento.equals(PRO.get(j))){
+
+                        conta++;
+
+                    }
+
+                }
+                System.out.println("Producto: " + elemento + " cantidad: " + conta + " Categoria: " + key + "\n");
+                conta = 0;
+            }
+            
+        }
     }
     
     public void recorrerTipo(){
         
         Set<String> keys = map.keySet();
 
-        for(int i = 0; i < keys.size()-1; i++){
+        ArrayList<String> contenido = new ArrayList<String>();
 
-            String key= keys.get(i);
-            Arraylist temp = map.get(key);
+        for(String key: map.keySet()){
+            
+            contenido = map.get(key);
 
-            for(int k = 0; k < temp.size()-1; k++){
-                
-                System.out.println(key + ": " + temp.get(k));
+            System.out.println("--------------------------------------");
+            System.out.println("Categoria: " + key);
+            
+            if(contenido.isEmpty() == true){
 
+                System.out.println("No contiene nada. ");
+
+            }else{
+                for(int i = 0; i < contenido.size(); i++){
+
+                    System.out.println(contenido.get(i));
+
+                }
             }
+            
+            System.out.println("--------------------------------------");
+            
         }
     }
 
-    public Set keySeto(){
+    public Set<String> keySeto(){
 
         Set<String> keys = map.keySet();
 
         return keys;
 
     }
+    public String GivoKey(String peticion){//Revisa si un nombre existe dentro una llave y le retorna el valor
 
+        String respuesta = null;
+        ArrayList<String> contenido = new ArrayList<String>();
 
+        for(String key: map.keySet()){
+            
+            contenido = map.get(key);
+
+            for(int i = 0; i < contenido.size()-1; i++){
+
+                if(peticion.equals(contenido.get(i))){
+
+                    respuesta = key;
+                    return respuesta;
+
+                }
+
+            }
+
+        }
+
+        return respuesta;
+    }
 }

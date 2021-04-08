@@ -1,4 +1,5 @@
 import java.util.Set;
+import java.util.ArrayList;
 
 /******************************************************************
 interfa.java
@@ -10,6 +11,7 @@ interfaz
 
 public interface InterfaceHash{
 
+    public abstract void crear(String tipo, ArrayList<String> lista);
     public abstract void agregar(String tipo, String agregado);
     public abstract void quitar(String tipo, String quita);
     public abstract void remplazar(String remplaza, String nuevoValor);

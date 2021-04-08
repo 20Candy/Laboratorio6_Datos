@@ -5,19 +5,16 @@ import java.util.Set;
 
 class HashMapa extends AbstractoHash{
     
-    Map<String, ArrayList<String>> map; 
+    protected Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 
-    public void HashMapa(){
-        map = new HashMap<String, ArrayList<String>>();
-
-    }
 
     public void crear(String tipo, ArrayList<String> lista){
         map.put(tipo, lista);
     }
 
     public  void agregar(String tipo, String agregado){
-        ArrayList temp = map.get(tipo);
+        ArrayList<String> temp = new ArrayList<String>();
+        temp = this.map.get(tipo);
         temp.add(agregado);
         map.replace(tipo, temp);
     }
@@ -54,11 +51,11 @@ class HashMapa extends AbstractoHash{
 
     public String buscar(String Ryan){//Buscando al String Ryan (se ingresa el nombre y se regresa la categoria)
 
-        String respuesta = "No se encontro";
+        String respuesta = "";
         
         String clase = GivoKey(Ryan);
 
-        if(!clase.equals(null) == true){
+        if(clase != null){
 
             respuesta = "La categoria es " + clase;
 
@@ -71,7 +68,36 @@ class HashMapa extends AbstractoHash{
     }
 
     public void recorrer(){
+        Set<String> keys = map.keySet();
 
+        ArrayList<String> contenido = new ArrayList<String>();
+
+        for(String key: map.keySet()){
+            
+            contenido = map.get(key);
+
+            ArrayList<String> PRO = contenido;
+            
+            int conta = 0;
+
+            for(int i = 0; i < PRO.size(); i++){
+
+                String elemento = PRO.get(i);
+
+                for(int j = 0; j < PRO.size(); j++){
+
+                    if(elemento.equals(PRO.get(j))){
+
+                        conta++;
+
+                    }
+
+                }
+                System.out.println("Producto: " + elemento + " cantidad: " + conta + " Categoria: " + key + "\n");
+                conta = 0;
+            }
+            
+        }
     }
     
     public void recorrerTipo(){
@@ -84,12 +110,23 @@ class HashMapa extends AbstractoHash{
             
             contenido = map.get(key);
 
-            for(int i = 0; i < contenido.size()-1; i++){
+            System.out.println("--------------------------------------");
+            System.out.println("Categoria: " + key);
+            
+            if(contenido.isEmpty() == true){
 
-                System.out.println("Categoria: " + key + "\nProducto: " + contenido.get(i));
+                System.out.println("No contiene nada. ");
 
+            }else{
+                for(int i = 0; i < contenido.size(); i++){
+
+                    System.out.println(contenido.get(i));
+
+                }
             }
-
+            
+            System.out.println("--------------------------------------");
+            
         }
     }
 
@@ -100,20 +137,20 @@ class HashMapa extends AbstractoHash{
         return keys;
 
     }
-    public String GivoKey(String peticion){
+    public String GivoKey(String peticion){//Revisa si un nombre existe dentro una llave y le retorna el valor
 
         String respuesta = null;
         ArrayList<String> contenido = new ArrayList<String>();
+
 
         for(String key: map.keySet()){
             
             contenido = map.get(key);
 
             for(int i = 0; i < contenido.size()-1; i++){
-
-                if(peticion.equals(contenido.get(i)) == true){
-
-                    respuesta = contenido.get(i);
+                if(peticion.equals(contenido.get(i))){
+                    
+                    respuesta = key;
                     return respuesta;
 
                 }

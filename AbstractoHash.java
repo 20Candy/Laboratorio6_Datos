@@ -1,3 +1,2 @@
-public abstract class AbstractoHash implements InterfaceHash{
-    
+public abstract class AbstractoHash implements InterfaceHash{   
 }
